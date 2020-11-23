@@ -19,17 +19,20 @@ def getData(path):
     Y = np.array([])
     zip = pd.get_dummies(df['zipcode'])
     df = df.join(zip)
-    df.drop(columns=['id', 'zipcode', 'sale_yr', 'sale_month', 'sale_day', 'lat', 'long'])
+    #df = df.drop(columns=['id', 'zipcode', 'sale_yr', 'sale_month', 'sale_day', 'lat', 'long'])
+    #df.drop(columns=['id', 'zipcode', 'sale_yr', 'sale_month', 'sale_day', 'lat', 'long'])
     dataset = np.array(df.values)
     if "price" in df.columns:
         Y = dataset[:, 1]
         dataset = np.delete(dataset, 1, 1)
+        #dataset = np.delete(dataset, 0, 1)
     dataset = np.delete(dataset, 0, 1)
     return dataset, Y
 
 # Read training dataset into X and Y
 X_train, Y_train = getData('./train-v3.csv')
 
+np.savetxt('./X_train.csv', X_train, delimiter=',', fmt='%i')
 # Read validation dataset into X and Y
 X_valid, Y_valid = getData('./valid-v3.csv')
 
@@ -66,25 +69,20 @@ def normalize(train,valid,test):
 
 X_train,X_valid,X_test=normalize(X_train,X_valid,X_test)
 
+
 from tensorflow import keras
 import tensorflow as tf
 
 model = keras.Sequential([
     keras.layers.Dense(40, input_dim=X_train.shape[1]),
-    keras.layers.Dense(95, activation='relu'),
+    keras.layers.Dense(60, activation='relu'),
     keras.layers.Dense(100, activation='relu'),
-    keras.layers.Dense(500, activation='relu'),
-    keras.layers.Dense(100, activation='relu'),
+    keras.layers.Dense(150, activation='relu'),
+    keras.layers.Dense(50, activation='relu'),
     
     keras.layers.Dense(1)
 ])
-# model = keras.Sequential([
-#     keras.layers.Dense(40, input_dim=X_train.shape[1]),
-#     keras.layers.Dense(120, activation='relu'),
-#     keras.layers.Dense(30, activation='relu'),
-#     keras.layers.Dense(30, activation='relu'),
-#     keras.layers.Dense(1)
-# ])
+
 
 model.compile(optimizer='adam',
               loss='mae')
@@ -99,7 +97,7 @@ model.compile(optimizer='adam',
 # 	print('train cost: {0:e}, val. cost: {1:e}'.format(cost, valid_cost))
 
 #model.fit(X_train, Y_train, batch_size=30, epochs=650, validation_data=(X_valid, Y_valid))
-history = model.fit(X_train, Y_train, batch_size=30, epochs=200, validation_data=(X_valid, Y_valid))
+history = model.fit(X_train, Y_train, batch_size=30, epochs=50, validation_data=(X_valid, Y_valid))
 
 model.save('h5/model.h5')
 
