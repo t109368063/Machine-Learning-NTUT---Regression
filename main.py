@@ -19,8 +19,8 @@ def getData(path):
     Y = np.array([])
     zip = pd.get_dummies(df['zipcode'])
     df = df.join(zip)
-    #df = df.drop(columns=['id', 'zipcode', 'sale_yr', 'sale_month', 'sale_day', 'lat', 'long'])
-    #df.drop(columns=['id', 'zipcode', 'sale_yr', 'sale_month', 'sale_day', 'lat', 'long'])
+    #df = df.drop(columns=['id', 'zipcode', 'sale_yr', 'sale_month', 'sale_day'q])
+    df.drop(columns=['id', 'zipcode', 'sale_yr', 'sale_month', 'sale_day'])
     dataset = np.array(df.values)
     if "price" in df.columns:
         Y = dataset[:, 1]
