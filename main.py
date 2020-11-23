@@ -99,7 +99,7 @@ model.compile(optimizer='adam',
 # 	print('train cost: {0:e}, val. cost: {1:e}'.format(cost, valid_cost))
 
 #model.fit(X_train, Y_train, batch_size=30, epochs=650, validation_data=(X_valid, Y_valid))
-history = model.fit(X_train, Y_train, batch_size=30, epochs=100, validation_data=(X_valid, Y_valid))
+history = model.fit(X_train, Y_train, batch_size=30, epochs=200, validation_data=(X_valid, Y_valid))
 
 model.save('h5/model.h5')
 
