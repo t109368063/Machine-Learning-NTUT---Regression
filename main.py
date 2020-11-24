@@ -19,7 +19,7 @@ def getData(path):
     Y = np.array([])
     zip = pd.get_dummies(df['zipcode'])
     df = df.join(zip)
-    #df = df.drop(columns=['id', 'zipcode', 'sale_yr', 'sale_month', 'sale_day'q])
+    #df = df.drop(columns=['id', 'zipcode', 'sale_yr', 'sale_month', 'sale_day'])
     df.drop(columns=['id', 'zipcode', 'sale_yr', 'sale_month', 'sale_day'])
     dataset = np.array(df.values)
     if "price" in df.columns:
@@ -79,13 +79,13 @@ model = keras.Sequential([
     keras.layers.Dense(100, activation='relu'),
     keras.layers.Dense(150, activation='relu'),
     keras.layers.Dense(50, activation='relu'),
-    
     keras.layers.Dense(1)
 ])
 
 
 model.compile(optimizer='adam',
               loss='mae')
+
 
 
 #print('Training -----------')
@@ -97,8 +97,8 @@ model.compile(optimizer='adam',
 # 	print('train cost: {0:e}, val. cost: {1:e}'.format(cost, valid_cost))
 
 #model.fit(X_train, Y_train, batch_size=30, epochs=650, validation_data=(X_valid, Y_valid))
-history = model.fit(X_train, Y_train, batch_size=30, epochs=50, validation_data=(X_valid, Y_valid))
 
+history = model.fit(X_train, Y_train, batch_size=30, epochs=50, validation_data=(X_valid, Y_valid))
 model.save('h5/model.h5')
 
 Y_predict = model.predict(X_test)
